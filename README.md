@@ -10,4 +10,4 @@ Usage:
   Everything should be working, otherwise check exceptions.
 
 Testing:
-  Pytests are located in ```test_db_operations.py```, simply run the script with ```python test_db_operations.py``` and check if anything fails.
+  Pytests are located in ```test_db_operations.py```, simply run the script with ```pytest test_db_operations.py``` and check if anything fails.
