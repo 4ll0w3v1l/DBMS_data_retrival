@@ -1,3 +1,5 @@
+import warnings
+
 from db_operations import DBOperations
 import asyncio
 
@@ -22,9 +24,16 @@ def create_data(start, in_, pad, total):
 
 async def fill_indices(data):
     for i in range(len(data)):
-        await db.execute_ddl(f"DROP TABLE IF EXISTS data_{i + 1};")
-        db.create_table(f"data_{i + 1}")
-        await db.execute_ddl(f"INSERT INTO data_{i+1} VALUES {data[i]};")
+        try:
+            await db.execute_ddl(f"DROP TABLE IF EXISTS data_{i + 1};")
+            db.create_table(f"data_{i + 1}")
+            await db.execute_ddl(f"INSERT INTO data_{i+1} VALUES {data[i]};")
+        except Exception as e:
+            if 'Connect call failed' in str(e):
+                warnings.warn("Check if PostgreSQL server is up and running")
+            else:
+                print(e)
+
 
 
 if __name__ == "__main__":
